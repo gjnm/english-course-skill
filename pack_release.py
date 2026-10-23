@@ -41,6 +41,8 @@ REQUIRED = [
     f"skills/{PRODUCER}/scripts/build_course.py",
     f"skills/{PRODUCER}/scripts/check_env.py",
     f"skills/{PRODUCER}/scripts/make_review.py",
+    f"skills/{PRODUCER}/scripts/make_layout_config.py",
+    f"skills/{PRODUCER}/scripts/prep_images.py",
     "skills/english-picturebook-cards/scripts/layout_pages.py",
 ]
 

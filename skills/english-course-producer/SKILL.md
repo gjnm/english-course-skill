@@ -1,16 +1,16 @@
 ---
 name: english-course-producer
-version: "1.4.0"
+version: "1.5.0"
 display_name: "英文绘本精品课生产线"
 display_name_en: "English picture-book course producer"
-description: "End-to-end production line for the AI English course: from photos of an English picture book, transcribe the English, regenerate watercolor illustration pages, write sentences/words/quizzes, synthesize child-voice TTS audio (Volcano/火山), build a self-contained showcase page (线上绘本展示.html, styled after the App learn screen), and — in the owner's local mode only — upload the course to the local import API (127.0.0.1:3100) with full md5 verification. Uploaded courses land as review_status=pending and stay pending; the owner approves in the admin backend, this skill NEVER changes review status. External users (no project .env) stop at the showcase HTML and do NOT upload. Use when the user asks to 做一本精品课/做成课程/做课/生产课程/把绘本做成课程/上传精品课, provides picture-book photos for course production, asks to 重新生成音频/换音色重做/改课程内容后重传, or wants a 线上绘本展示/展示页. Triggers (plain speech included): 精品课、做课、绘本做课程、课程音频、线上绘本展示、导入课程、做成能听能读的英文课、绘本做成课后练习、给孩子做英文绘本课、绘本配音频、绘本跟读、把绘本做成课. NOT for single image cards alone (use english-picturebook-cards) or for the user-facing photo-to-course feature. Risk level L2 for the owner (paid TTS, image-generation credits, local upload as pending); L1 for external users (no upload at all)."
-description_zh: "「AI 助学英语」精品课端到端生产线：从英文绘本照片开始——转录英文 → 重制水彩插画页 → 编写句子/生词/问答 → 火山童声 TTS 合成音频 → 生成单文件「线上绘本展示.html」（对齐 App 学习页风格：左侧学习选择栏 + 右侧内容区，含课程音频/重点词汇九宫格/跟读练习/语音问答四个板块）。分两种模式：**作者本机模式**（找得到项目 server/.env）在展示页后直接上传到 http://127.0.0.1:3100，落为「待审核」，由作者到后台点通过；**外部使用者模式**（没有项目 .env，只填自己的火山 key）到展示页为止，不上传、不碰服务端。本 skill 绝不修改审核状态。风险等级：作者 L2（调付费 TTS、耗生图积分、上传本机库为待审核），外部 L1（不上传）。触发说法：精品课、做课、绘本做课程、线上绘本展示、导入课程、做成能听能读的英文课、绘本做成课后练习、给孩子做英文绘本课、把绘本做成课。"
+description: "End-to-end production line for the AI English course. Two material entries: PHOTOS of an English picture book go through transcription, watercolor illustration regeneration, sentences/words/quizzes writing, child-voice TTS (Volcano/火山), and a self-contained showcase page (线上绘本展示.html, styled after the App learn screen); READY-MADE illustrations without text plus the user's English text and image-page mapping skip transcription and image generation entirely (make_layout_config.py typesets the English directly). In the owner's local mode only, the course is uploaded to the local import API (127.0.0.1:3100) with full md5 verification. Uploaded courses land as review_status=pending and stay pending; the owner approves in the admin backend, this skill NEVER changes review status. External users (no project .env) stop at the showcase HTML and do NOT upload. Use when the user asks to 做一本精品课/做成课程/做课/生产课程/把绘本做成课程/上传精品课, provides picture-book photos or ready-made illustrations for course production, asks to 重新生成音频/换音色重做/改课程内容后重传, or wants a 线上绘本展示/展示页. Triggers (plain speech included): 精品课、做课、绘本做课程、课程音频、线上绘本展示、导入课程、做成能听能读的英文课、绘本做成课后练习、给孩子做英文绘本课、绘本配音频、绘本跟读、把绘本做成课、现成图做课、自带插画做课. NOT for single image cards alone (use english-picturebook-cards) or for the user-facing photo-to-course feature. Risk level L2 for the owner (paid TTS, image-generation credits, local upload as pending); L1 for external users (no upload at all)."
+description_zh: "「AI 助学英语」精品课端到端生产线：从英文绘本照片或现成插画开始。两种素材入口：**拍照模式**（实体书照片）走转录 → 重制水彩插画 → 写句子/生词/问答 → 火山童声 TTS → 单文件「线上绘本展示.html」；**现成图模式**（用户自带无字成品插画 + 英文原文 + 图页对应关系）跳过转录和生图，直接排版英文 → 写内容稿 → TTS → 展示页。展示页对齐 App 学习页风格（左侧学习选择栏 + 右侧内容区，含课程音频/重点词汇九宫格/跟读练习/语音问答）。分两种权限模式：**作者本机模式**（找得到项目 server/.env）在展示页后直接上传到 http://127.0.0.1:3100，落为「待审核」，由作者到后台点通过；**外部使用者模式**（没有项目 .env，只填自己的火山 key）到展示页为止，不上传、不碰服务端。本 skill 绝不修改审核状态。风险等级：作者 L2（调付费 TTS、耗生图积分、上传本机库为待审核），外部 L1（不上传）。触发说法：精品课、做课、绘本做课程、线上绘本展示、导入课程、做成能听能读的英文课、绘本做成课后练习、给孩子做英文绘本课、把绘本做成课、现成图做课、自带插画做课。"
 agent_created: true
 ---
 
 # 英文绘本精品课生产线
 
-把一摞英文绘本照片，做成一本可直接在 App「精品课程」里播放的完整课程：重制插画 + 中英句子 + 生词卡（图+音）+ 问答（题音+答音）+ 慢速跟读，全部音频本地合成后随课上传，服务端零合成。
+把一摞英文绘本照片或一套现成插画，做成一本可直接在 App「精品课程」里播放的完整课程：重制插画 + 中英句子 + 生词卡（图+音）+ 问答（题音+答音）+ 慢速跟读，全部音频本地合成后随课上传，服务端零合成。
 
 本 skill 的定位是**跑数据**：一条命令链跑到底，跑完把「线上绘本展示」页（作者模式还带课号）交出来。首例：`产出/精品课-DontOpenTheDoor/`（2026-10-17 上线），同目录下还有 `精品课-LittleRabbitsCarrot/`、`精品课-EatUpAllTheFood/`。
 
@@ -70,6 +70,8 @@ agent_created: true
 
 **结论：时间 95% 花在生图，而其中大半是"串行 + 每张一次往返 + 网络中断后干等"。** 下面第 2 步的并行与批量验收就是针对这个。
 
+> **现成图模式（2b）直接绕开这张表的大头**：用户自带无字成品图时，转录与生图全省，全程 ~15 分钟。
+
 ## 流水线（8 步，第 7 步按模式分流）
 
 ### 0. 建课目录
@@ -108,7 +110,11 @@ agent_created: true
 
 **一批并行读**（一次消息里发 4–6 个 Read），不要一张一张来。**从照片转录英文原文**（不是凭记忆编），看不清就问用户。整理页序表：页码 → 英文句子。
 
-先判定是哪条路：**成品插画卡**（英文已精确排版、风格统一）→ 直接当页图，只需 `prep_images.py pages` 补 5:4；**实体书拍照**（页面弯曲、有桌面背景）→ 走第 2 步完整重制。
+先判定是哪条路（**素材形态决定流程，开跑前问清一句就够**）：
+
+- **A. 实体书拍照**（页面弯曲、有桌面背景、要 OCR）→ 走第 2 步完整重制（转录 + 生图）。
+- **B. 成品插画卡、英文已排版在图上** → 直接当页图，只需 `prep_images.py pages` 补 5:4；英文仍要从图上转录进 course.json。
+- **C. 现成图模式**：**成品插画但图上没有英文**，用户同时给出英文原文和"哪张图对应哪句/哪页" → **跳过转录和生图**，走第 2b 步（只补英文排版）。
 
 ### 2. 重制插画（最耗时环节，按下面三条走）
 
@@ -128,6 +134,26 @@ agent_created: true
 <python> <skill>/scripts/prep_images.py pages <重制版-5x4> _raw/p00/*.png --crop
 ```
 
+### 2b. 现成图模式（素材 C：自带无字成品图，跳过转录与生图）
+
+用户给了**成品插画（图上无英文）+ 英文原文 + 图页对应关系**时走这条：省掉转录（~20 min）和页图生图（~4.5 h），全程压到 **~15 分钟**。
+
+前提：course.json 已写好——**英文句子照抄用户给的原文，不要自行改写**；中文翻译、生词、问答仍按第 3 步写。图片顺序 = 参数顺序，**第一张是封面**，`pageIndex` 0 对应第 2 张图。
+
+```bash
+<python> <skill>/scripts/make_layout_config.py <课程目录> <封面图> <页1图> <页2图> ... --run
+```
+
+脚本自动完成：拷图进 `_raw/src/`（编号 00 起，不碰原图）→ 生成两份排版配置（封面：标题大字 96px、词色 orange/red 轮换；内页：44px 句子 + **生词自动高亮** red/green/blue 轮换，`sleep→sleeping`、`give up→gives up` 这类词形变化也能匹配）→ `--run` 直接调 cards 的 `layout_pages.py` 排出 `pages-5x4/`。可选参数：`--font-size` / `--text-pos tl|tr|bl|br` / `--no-panel` / `--out <目录>`。
+
+排完照常**批量验收**（一次 Read 4–6 张）：重点看文字有没有压主体、断行是否自然。不满意的页可手改 `_raw/layout-config.json`（调 `text_pos`、删减高亮）后重跑两条 `layout_pages.py -c …`，**不用重新生图**。
+
+**两个默认可商量的点**（拿不准就问一句，用户明确说了就照办）：
+- **词图**：默认照常生成（九宫格体验完整）；用户想省积分/时间可跳过——`build_course.py` 与展示页都支持零词图（九宫格退化成 🎨 占位卡），跳过就整步不跑。
+- **页图要不要烤英文**：默认烤（与已上线课程一致、拼写由脚本保证）；用户想要干净图就改用 `prep_images.py pages` 补 5:4，句子只在展示页/App 里以文字呈现。
+
+之后的词图（可选）→ TTS → 展示页 → 上传，与拍照模式完全相同。
+
 ### 3. 写 course.json
 
 - **句子**：按绘本原意转录并译中文；角色台词从叙述里拆成独立句（一句一条音频，太长不好跟读）；`pageIndex` 从 0 起。
@@ -135,7 +161,7 @@ agent_created: true
 - **问答**：尽量每句配一道，`question`/`questionZh`/`answer`/`accept`（答案同义列表，全小写）/`keyWord`。**问答考理解，不考复述**，答案 1–5 个词。
 - **cover**：选信息量足、适合当封面的一页（可与 pages 重复）。
 
-### 4. 词图
+### 4. 词图（现成图模式可整步跳过，见 2b）
 
 每个生词一张 6:5（1229×1024）水彩词图，`_raw/w00/`…`_raw/w11/` 一图一目录，最后：
 
@@ -259,5 +285,6 @@ agent_created: true
 
 - `scripts/check_env.py` — 环境自检：Python 版本 / requests / Pillow / cards 技能 / 排版字体 / 火山凭证，`--course` 还查课程目录（外部用户必跑）
 - `scripts/prep_images.py` — 词图裁 6:5 / 页图补 5:4 / 封面裁 5:4（顺序=参数顺序）
+- `scripts/make_layout_config.py` — **现成图模式**：无字成品图 + course.json → 自动生成封面/内页排版配置（生词自动高亮，含词形变化兜底），`--run` 直接排版出 pages-5x4
 - `scripts/build_course.py` — 预检 + TTS + manifest（+ 作者模式上传 / md5 回执 / 回读）；`--verify` 只校验
 - `scripts/make_review.py` — 单文件「线上绘本展示」HTML（纯离线，外部模式也能跑；UI 对齐 App 学习页）
