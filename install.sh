@@ -8,6 +8,7 @@ set -euo pipefail
 
 REPO_SLUG="${ECP_REPO_SLUG:-gjnm/english-course-skill}"
 ZIP_URL="${ECP_ZIP_URL:-https://github.com/${REPO_SLUG}/releases/latest/download/english-course-skills.zip}"
+FALLBACK_URL="https://codeload.github.com/${REPO_SLUG}/zip/refs/heads/main"
 SKILLS_DIR="${WORKBUDDY_SKILLS_DIR:-$HOME/.workbuddy/skills}"
 CRED_DIR="$HOME/.english-course-producer"
 CRED_FILE="$CRED_DIR/credentials.env"
@@ -35,7 +36,12 @@ else
   command -v curl >/dev/null || die "没有 curl，装不了。请用浏览器下载 zip 解压后运行 bash install.sh"
   WORK="$(mktemp -d)"
   say "安装源：下载 $ZIP_URL"
-  curl -fL --retry 2 -o "$WORK/pkg.zip" "$ZIP_URL" || die "下载失败。可手动下载 zip：https://github.com/${REPO_SLUG}/releases"
+  if ! curl -fsSL --retry 2 -o "$WORK/pkg.zip" "$ZIP_URL"; then
+    say "Release 资产取不到（可能还没发布），改从仓库分支取，内容一致："
+    say "  $FALLBACK_URL"
+    curl -fsSL --retry 2 -o "$WORK/pkg.zip" "$FALLBACK_URL" \
+      || die "下载失败。检查网络，或用浏览器打开 https://github.com/${REPO_SLUG} 手动下载"
+  fi
   command -v unzip >/dev/null || die "没有 unzip，请手动解压 zip 后运行 bash install.sh"
   unzip -q "$WORK/pkg.zip" -d "$WORK/x"
   SRC="$(find "$WORK/x" -type d -name "$PRODUCER" -maxdepth 4 | head -1 | xargs -I{} dirname {})"
